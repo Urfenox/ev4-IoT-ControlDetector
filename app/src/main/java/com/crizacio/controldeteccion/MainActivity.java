@@ -104,31 +104,33 @@ public class MainActivity extends AppCompatActivity {
         lst_Eventos.smoothScrollToPosition(0);
     }
 
-    boolean estadoActual = false;
+    boolean estadoActual = true;
     public void metEstado(View view) {
-        mConnectedThread.write("pir"+ System.lineSeparator());
-        AddEvento("Monitorizacion", "" + estadoActual);
-        estadoActual = !estadoActual;
         if (estadoActual) {
+            mConnectedThread.write("pir_off"+ System.lineSeparator());
             Toast.makeText(getBaseContext(), "Sistema inactivo", Toast.LENGTH_SHORT).show();
             btn_Estado.setText("Inactivo");
         } else {
+            mConnectedThread.write("pir_on"+ System.lineSeparator());
             Toast.makeText(getBaseContext(), "Sistema activo", Toast.LENGTH_SHORT).show();
             btn_Estado.setText("Activo");
         }
+        AddEvento("Monitorizacion", "" + estadoActual);
+        estadoActual = !estadoActual;
     }
     boolean panicoActual = false;
     public void metPanico(View view) {
-        mConnectedThread.write("panico"+ System.lineSeparator());
-        AddEvento("Panico!", "" + panicoActual);
-        panicoActual = !panicoActual;
         if (panicoActual) {
-            Toast.makeText(getBaseContext(), "PANICO! activado", Toast.LENGTH_SHORT).show();
-            btn_Panico.setText("En panico...");
-        } else {
+            mConnectedThread.write("panico_off"+ System.lineSeparator());
             Toast.makeText(getBaseContext(), "PANICO! desactivado", Toast.LENGTH_SHORT).show();
             btn_Panico.setText("Panico");
+        } else {
+            mConnectedThread.write("panico_on"+ System.lineSeparator());
+            Toast.makeText(getBaseContext(), "PANICO! activado", Toast.LENGTH_SHORT).show();
+            btn_Panico.setText("En panico...");
         }
+        AddEvento("Panico!", "" + panicoActual);
+        panicoActual = !panicoActual;
     }
 
     @SuppressLint("MissingPermission")
